@@ -1,9 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
+// eslint-disable-next-line import/no-extraneous-dependencies
 const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const pg = require('pg');
 
+// eslint-disable-next-line no-unused-vars
 const { Pool } = pg;
 
 let useSSL = false;
@@ -20,7 +23,7 @@ if (process.env.DATABASE_URL && !local) {
 //     },
 //   });
 
-  const app = express();
+const app = express();
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
@@ -30,13 +33,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get('/', function(req, res){
-    res.render('index');
+app.get('/', (req, res) => {
+  res.render('index');
 });
 
+const PORT = process.env.PORT || 3005;
 
-let PORT = process.env.PORT || 3005;
-
-app.listen(PORT, function () {
+app.listen(PORT, () => {
   console.log('App starting on port', PORT);
 });

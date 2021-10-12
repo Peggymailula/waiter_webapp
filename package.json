@@ -1,12 +1,34 @@
 {
   "name": "waiter_webapp",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint": "^7.32.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.2",
+    "pg": "^8.7.1",
+    "yargs-parser": "^20.2.9"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peggymailula/waiter_webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Peggymailula/waiter_webapp/issues"
+  },
+  "homepage": "https://github.com/Peggymailula/waiter_webapp#readme",
+  "description": ""
 }
