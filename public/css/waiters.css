@@ -1,0 +1,44 @@
+#intro {
+    background-image: url("table-top-with-background.jpg");
+    height: 110vh;
+    width: 300vh;
+    
+    background-repeat: no-repeat;
+   
+    /* background-color: burlywood; */
+    
+  }
+
+  h1{
+    font-style:oblique;
+    text-align: center;
+    font-weight: bolder;
+    color: rgb(63, 4, 63);
+  }
+  
+  #forms{
+    width:30%;
+    margin-left:35%;
+  }
+
+ h3{
+   text-align: center;
+  color: rgb(63, 4, 63);
+ }
+
+ .btn{
+   margin-left: 45%;
+   background-color: rgb(63, 4, 63);
+ }
+
+ #check{
+   font-size: medium;
+ }
+ 
+  /* @media (min-width: 992px) {
+    #intro {
+      margin-top: -58.59px;
+    }
+  }
+
+   */
