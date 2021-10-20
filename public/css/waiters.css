@@ -1,9 +1,8 @@
 #intro {
     background-image: url("table-top-with-background.jpg");
-    height: 110vh;
-    width: 300vh;
-    
-    background-repeat: no-repeat;
+     height: 110vh;
+    /* width: 300vh; */
+   
    
     /* background-color: burlywood; */
     
@@ -14,6 +13,10 @@
     text-align: center;
     font-weight: bolder;
     color: rgb(63, 4, 63);
+  }
+
+  h2{
+    text-align: center;
   }
   
   #forms{
@@ -31,10 +34,23 @@
    background-color: rgb(63, 4, 63);
  }
 
+ #update{
+   margin-left: 85%;
+ }
  #check{
    font-size: medium;
  }
  
+ #inlineCheckbox1 label{
+   margin-left: 200%;
+ }
+ #inlineCheckbox2 label{
+  margin-left: 100%;
+}
+#inlineCheckbox3 label{
+  margin-left: 100%;
+}
+
   /* @media (min-width: 992px) {
     #intro {
       margin-top: -58.59px;

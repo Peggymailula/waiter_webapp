@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const pg = require('pg');
 
+const Waiters = require('./services/waiters');
 // eslint-disable-next-line no-unused-vars
 const { Pool } = pg;
 
@@ -15,13 +16,15 @@ if (process.env.DATABASE_URL && !local) {
   // eslint-disable-next-line no-unused-vars
   useSSL = true;
 }
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/waiters';
 
-// const pool = new Pool({
-//     connectionString,
-//     ssl: {
-//       rejectUnauthorized: false,
-//     },
-//   });
+const pool = new Pool({
+  // eslint-disable-next-line no-undef
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 const app = express();
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
@@ -33,12 +36,40 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
+const waiterAvail = Waiters(pool);
+let name = '';
+
+app.get('/waiters', (req, res) => {
   res.render('index');
+});
+
+app.post('/waiters', (req, res) => {
+  name = req.body.inputName;
+  waiterAvail.setName(name);
+  // eslint-disable-next-line no-console
+  res.redirect(`/waiters/${name}`);
+});
+
+// eslint-disable-next-line comma-spacing
+app.get('/waiters/:name', (req,res) => {
+  name = req.body.inputName;
+  res.render('days', { name });
+});
+
+app.post('/waiters/:name', (req, res) => {
+  // waiterAvail.setDayID(req.body.days);
+  name = req.body.inputName;
+  // eslint-disable-next-line no-console
+  console.log(req.body);
+  waiterAvail.setDayID(req.body.days);
+  waiterAvail.setNameID();
+  waiterAvail.selectShift();
+  res.redirect('/waiters/:name');
 });
 
 const PORT = process.env.PORT || 3005;
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log('App starting on port', PORT);
 });
