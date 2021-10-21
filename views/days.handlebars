@@ -2,19 +2,22 @@
    <div class="container-fluid"  id="intro">
 <br>
 
-<div class="container-sm" style="border: 5px solid rgb(63, 4, 63);padding: 10px;" >
+<div class="container-sm" style="border: 5px solid #654321;padding: 10px;background-color:rgb(250, 243, 243);">
 <h1 class="display-1">Penny's Coffe</h1><br>
-     <br>
- <h2>Welcome back {{name}}! </h2>
- <h2>Please select the days you are available to work.</h2>
+     
+ <h4>Waiter:{{name}} </h4>
+ 
 
-<br><br>
+
      <h3>Days Available</h3><br>
- <form action="/waiters/:name" method="POST">
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox1"  name="days" value="Monday">
-  <label class="form-check-label" id="check" for="inlineCheckbox1">Monday</label>
-</div>
+ <form action="/:name" method="POST">
+
+ <div class="row" id="checkRow">
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="Monday" name="days" id="flexCheckDefault">
+  <label class="form-check-label" for="flexCheckDefault">
+    Monday
+  </label>
 
 <div class="form-check form-check-inline">
   <input class="form-check-input" type="checkbox" id="inlineCheckbox2"  name="days" value="Tuesday">
@@ -42,13 +45,14 @@
   <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="days" value="Sunday">
   <label class="form-check-label" for="inlineCheckbox3">Sunday</label>
 </div>
+</div>
 <br><br>
 
 
 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
   <div class="btn-group mr-2" role="group" aria-label="First group" style="margin-left: 30%;">
   
-    <button type="submit" class="btn btn-primary btn-lg" id="update">Update</button>
+    <button type="submit" class="btn  btn-lg" id="update" style="background-color: #e0964d;">Update</button>
     </form>
   </div> 
   </div>

@@ -39,24 +39,24 @@ app.use(bodyParser.json());
 const waiterAvail = Waiters(pool);
 let name = '';
 
-app.get('/waiters', (req, res) => {
+app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.post('/waiters', (req, res) => {
+app.post('/', (req, res) => {
   name = req.body.inputName;
   waiterAvail.setName(name);
   // eslint-disable-next-line no-console
-  res.redirect(`/waiters/${name}`);
+  res.redirect(`/${name}`);
 });
 
 // eslint-disable-next-line comma-spacing
-app.get('/waiters/:name', (req,res) => {
+app.get('/:name', (req,res) => {
   name = req.body.inputName;
   res.render('days', { name });
 });
 
-app.post('/waiters/:name', (req, res) => {
+app.post('/:name', (req, res) => {
   // waiterAvail.setDayID(req.body.days);
   name = req.body.inputName;
   // eslint-disable-next-line no-console
@@ -64,7 +64,11 @@ app.post('/waiters/:name', (req, res) => {
   waiterAvail.setDayID(req.body.days);
   waiterAvail.setNameID();
   waiterAvail.selectShift();
-  res.redirect('/waiters/:name');
+  res.redirect('/:name');
+});
+
+app.get('/waiters/admin', (req, res) => {
+  res.render('owner');
 });
 
 const PORT = process.env.PORT || 3005;
