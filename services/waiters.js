@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-syntax */
 module.exports = function waiterAvailability(pool) {
   let waiter;
-  let day;
+  let day = [];
 
   async function setName(name) {
     // eslint-disable-next-line no-param-reassign
@@ -14,14 +15,6 @@ module.exports = function waiterAvailability(pool) {
     }
   }
 
-  async function setDayID(string) {
-    day = string;
-    const dayIdentify = await pool.query('SELECT day FROM daysOfWeek WHERE daysWeek = $1', [day]);
-    // eslint-disable-next-line prefer-destructuring
-    const id = dayIdentify.rows[0].id;
-    return Number(id);
-  }
-
   async function setNameID() {
     const nameIdentify = await pool.query('SELECT id FROM waiterNames WHERE names = $1', [waiter]);
     // eslint-disable-next-line prefer-destructuring
@@ -29,17 +22,39 @@ module.exports = function waiterAvailability(pool) {
     return Number(id);
   }
 
-  async function selectShift() {
-    const waiterID = setNameID();
-    const nameID = setDayID(day);
-    await pool.query('INSERT INTO waiterDays (days_id, waiter_id) values ($1,$2)', [nameID, waiterID]);
+  async function selectShift(string) {
+    day = string;
+    const arrayId = [];
+    let strId;
+    const nameID = await setNameID();
+
+    for (const i of day) {
+      const dayIdentify = await pool.query('SELECT id FROM daysOfWeek WHERE daysWeek = $1', [i]);
+      strId = dayIdentify.rows[0].id;
+      arrayId.push(strId);
+      console.log(nameID);
+      console.log(strId);
+      await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [strId,nameID]);
+
+    }
+
+   
+
+    // const results = await pool.query('SELECT * FROM waiterDays');
+    // console.log(results.rows);
+    // return results.rows;
+  
+}
+
+  async function resetData() {
+    await pool.query('DELETE  FROM waiterDays');
   }
 
   return {
     setName,
-    setDayID,
-    setNameID,
     selectShift,
+    setNameID,
+    resetData,
 
   };
 };

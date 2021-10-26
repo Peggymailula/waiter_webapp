@@ -43,32 +43,35 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   name = req.body.inputName;
-  waiterAvail.setName(name);
+  // eslint-disable-next-line no-unused-expressions
+  name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  await waiterAvail.setName(name);
   // eslint-disable-next-line no-console
   res.redirect(`/${name}`);
 });
 
 // eslint-disable-next-line comma-spacing
 app.get('/:name', (req,res) => {
-  name = req.body.inputName;
+  req.params.name = name;
   res.render('days', { name });
 });
 
-app.post('/:name', (req, res) => {
-  // waiterAvail.setDayID(req.body.days);
-  name = req.body.inputName;
-  // eslint-disable-next-line no-console
-  console.log(req.body);
-  waiterAvail.setDayID(req.body.days);
-  waiterAvail.setNameID();
-  waiterAvail.selectShift();
-  res.redirect('/:name');
+app.post('/:name', async (req, res) => {
+  req.params.name = name;
+  await waiterAvail.setNameID();
+  await waiterAvail.selectShift(req.body.days);
+  res.redirect(`/${name}`);
 });
 
 app.get('/waiters/admin', (req, res) => {
   res.render('owner');
+});
+
+app.post('/waiters/admin', (req, res) => {
+  waiterAvail.resetData();
+  res.redirect('/waiters/admin');
 });
 
 const PORT = process.env.PORT || 3005;
