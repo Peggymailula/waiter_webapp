@@ -17,28 +17,48 @@
          <th scope="col">Sunday</th>
     </tr>
   </thead>
-   
+  
   <tbody>
-    
-      {{!-- <th scope="row"></th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th scope="row"></th>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th scope="row"></th>
-      <td></td>
-      <td></td>
-      <td></td> --} --}}
+    <tr>       
+            <td>
+                {{#each Monday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
+            <td>
+                {{#each Tuesday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
+            <td>
+                {{#each Wednesday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
+            <td>
+                {{#each Thursday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
+            <td>
+                {{#each Friday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
+            <td>
+                {{#each Saturday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
+            <td>
+                {{#each Sunday}}
+                {{this}} <br> 
+                {{/each}}
+            </td>
   </tbody>
    
 </table>
+ <h3>{{messages.reset}}</h3>
 <br>
 <form  action="/waiters/admin" method="POST">
 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">

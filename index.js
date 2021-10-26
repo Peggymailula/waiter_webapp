@@ -1,5 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-// eslint-disable-next-line import/no-extraneous-dependencies
+const flash = require('express-flash');
+const session = require('express-session');
 const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
@@ -7,6 +7,7 @@ const exphbs = require('express-handlebars');
 const pg = require('pg');
 
 const Waiters = require('./services/waiters');
+// const waiters = require('./services/waiters');
 // eslint-disable-next-line no-unused-vars
 const { Pool } = pg;
 
@@ -31,7 +32,17 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
+app.use(session({
+  secret: 'Message to clear database',
+  cookie: {
+    maxAge: 2000,
+  },
+  resave: false,
+  saveUninitialized: true,
+}));
 
+// initialise the flash middleware
+app.use(flash());
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
@@ -39,6 +50,7 @@ app.use(bodyParser.json());
 const waiterAvail = Waiters(pool);
 let name = '';
 
+// let weekday = [];
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -65,11 +77,59 @@ app.post('/:name', async (req, res) => {
   res.redirect(`/${name}`);
 });
 
-app.get('/waiters/admin', (req, res) => {
-  res.render('owner');
+app.get('/waiters/admin', async (req, res) => {
+  const waitering = await waiterAvail.getWaiters();
+  // week = await waitersService.daysColor();
+
+  const Monday = [];
+  const Tuesday = [];
+  const Wednesday = [];
+  const Thursday = [];
+  const Friday = [];
+  const Saturday = [];
+  const Sunday = [];
+
+  // eslint-disable-next-line max-len
+  // const myClass = [{ Class: 'Sun' }, { Class: 'Mon' }, { Class: 'Tue' }, { Class: 'Wed' }, { Class: 'Thu' }, { Class: 'Fri' }, { Class: 'Sat' }];
+
+  for (const x of waitering) {
+    if (x.daysweek === 'Monday') {
+      Monday.push(x.names);
+    }
+    if (x.daysweek === 'Tuesdays') {
+      Tuesday.push(x.names);
+    }
+    if (x.daysweek === 'Wednesday') {
+      Wednesday.push(x.names);
+    }
+    if (x.daysweek === 'Thursday') {
+      Thursday.push(x.names);
+    }
+    if (x.daysweek === 'Friday') {
+      Friday.push(x.names);
+    }
+    if (x.daysweek === 'Saturday') {
+      Saturday.push(x.names);
+    }
+    if (x.daysweek === 'Sunday') {
+      Sunday.push(x.names);
+    }
+  }
+
+  res.render('owner', {
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday,
+
+  });
 });
 
 app.post('/waiters/admin', (req, res) => {
+  req.flash('reset', 'There are currently no waiters available to work for the week.');
   waiterAvail.resetData();
   res.redirect('/waiters/admin');
 });

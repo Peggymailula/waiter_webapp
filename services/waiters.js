@@ -29,23 +29,23 @@ module.exports = function waiterAvailability(pool) {
     const nameID = await setNameID();
 
     for (const i of day) {
+      // eslint-disable-next-line no-await-in-loop
       const dayIdentify = await pool.query('SELECT id FROM daysOfWeek WHERE daysWeek = $1', [i]);
       strId = dayIdentify.rows[0].id;
       arrayId.push(strId);
-      console.log(nameID);
-      console.log(strId);
-      await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [strId,nameID]);
-
+      // eslint-disable-next-line no-await-in-loop
+      await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [strId, nameID]);
     }
+  }
 
-   
-
-    // const results = await pool.query('SELECT * FROM waiterDays');
-    // console.log(results.rows);
-    // return results.rows;
-  
-}
-
+  async function getWaiters() {
+    const availWaiter = await pool.query(`SELECT waiterNames.names, daysOfWeek.daysWeek
+    FROM waiterDays
+INNER JOIN waiterNames ON waiterDays.waiter_id = waiterNames.id
+INNER JOIN daysOfWeek
+        ON waiterDays.days_id = daysOfWeek.id`);
+    return availWaiter.rows;
+  }
   async function resetData() {
     await pool.query('DELETE  FROM waiterDays');
   }
@@ -54,6 +54,7 @@ module.exports = function waiterAvailability(pool) {
     setName,
     selectShift,
     setNameID,
+    getWaiters,
     resetData,
 
   };
