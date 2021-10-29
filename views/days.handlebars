@@ -10,41 +10,21 @@
 
 
      <h3>Days Available</h3><br>
- <form action="/:name" method="POST">
+ <form action="/{{name}}" method="POST">
 
  <div class="row" id="checkRow">
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="Monday" name="days" id="flexCheckDefault">
-  <label class="form-check-label" for="flexCheckDefault">
-    Monday
-  </label>
+
 
 <div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox2"  name="days" value="Tuesday">
-  <label class="form-check-label" for="inlineCheckbox2">Tuesday</label>
+  <ul>
+                {{#each weeks}}
+                <li class="btn bg-light m-2" value="{{daysWeek}}" name="{{daysWeek}}">
+                    <input type="checkbox" name="days" value="{{id}}" {{#if selected}}checked{{/if}} > {{daysweek}} 
+                </li>
+                {{/each}}
+            </ul>
 </div>
 
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="days" value="Wednesday">
-  <label class="form-check-label" for="inlineCheckbox3">Wednesday</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="days" value="Thursday">
-  <label class="form-check-label" for="inlineCheckbox1">Thursday</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="days" value="Friday">
-  <label class="form-check-label" for="inlineCheckbox2">Friday</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="days" value="Saturday">
-  <label class="form-check-label-bg" for="inlineCheckbox3">Saturday</label>
-</div>
-
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="days" value="Sunday">
-  <label class="form-check-label" for="inlineCheckbox3">Sunday</label>
-</div>
 </div>
 <br><br>
 

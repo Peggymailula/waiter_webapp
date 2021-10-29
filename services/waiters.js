@@ -1,8 +1,13 @@
 /* eslint-disable no-restricted-syntax */
 module.exports = function waiterAvailability(pool) {
-  let waiter;
   let day = [];
+  let waiter;
 
+  async function getNameID(name) {
+    let id = await pool.query('SELECT id FROM waiterNames WHERE names = $1', [name]);
+    id = id.rows[0].id;
+    return id;
+  }
   async function setName(name) {
     // eslint-disable-next-line no-param-reassign
     waiter = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
@@ -15,26 +20,16 @@ module.exports = function waiterAvailability(pool) {
     }
   }
 
-  async function setNameID() {
-    const nameIdentify = await pool.query('SELECT id FROM waiterNames WHERE names = $1', [waiter]);
-    // eslint-disable-next-line prefer-destructuring
-    const id = nameIdentify.rows[0].id;
-    return Number(id);
-  }
-
-  async function selectShift(string) {
+  async function selectShift(string, name) {
     day = string;
-    const arrayId = [];
-    let strId;
-    const nameID = await setNameID();
+    // let strId;
+    const nameID = await getNameID(name);
 
     for (const i of day) {
       // eslint-disable-next-line no-await-in-loop
-      const dayIdentify = await pool.query('SELECT id FROM daysOfWeek WHERE daysWeek = $1', [i]);
-      strId = dayIdentify.rows[0].id;
-      arrayId.push(strId);
+      // const dayIdentify = await pool.query('SELECT id FROM daysOfWeek WHERE daysWeek = $1', [i]);
       // eslint-disable-next-line no-await-in-loop
-      await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [strId, nameID]);
+      await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [i, nameID]);
     }
   }
 
@@ -46,16 +41,65 @@ INNER JOIN daysOfWeek
         ON waiterDays.days_id = daysOfWeek.id`);
     return availWaiter.rows;
   }
+
+  async function getDays() {
+    const theDays = await pool.query('SELECT id,daysWeek FROM daysOfWeek');
+    return theDays.rows;
+  }
+
+  async function checkedDays(name) {
+    const theDay = await getDays();
+    const waiterID = await getNameID(name);
+
+    for (const i of theDay) {
+      // eslint-disable-next-line no-await-in-loop
+      const result = await pool.query('SELECT COUNT(*) AS counter FROM waiterDays WHERE waiter_id = $1 and days_id = $2', [waiterID, i.id]);
+      const counting = result.rows[0].counter;
+      console.log(counting);
+
+      if (counting > 0) {
+        i.selected = true;
+      } else {
+        i.selected = false;
+      }
+    }
+
+    return theDay;
+  }
+
+  async function dayColour() {
+    const theDay = await getDays();
+    const shift = 'SELECT COUNT(*) AS counter FROM waiterDays WHERE days_id = $1';
+
+    for (const y of theDay) {
+      const result = await pool.query(shift, [y.id]);
+      const dayCount = result.rows[0].counter;
+
+      if (dayCount < 3) {
+        theDay.color = 'bg-warning';
+      } else if (dayCount > 3) {
+        theDay.color = 'bg-danger';
+      } else {
+        theDay.color = 'bg-success';
+      }
+    }
+
+    return theDay;
+  }
+
   async function resetData() {
     await pool.query('DELETE  FROM waiterDays');
   }
 
   return {
+    getNameID,
     setName,
     selectShift,
-    setNameID,
     getWaiters,
     resetData,
+    checkedDays,
+    getDays,
+    dayColour,
 
   };
 };

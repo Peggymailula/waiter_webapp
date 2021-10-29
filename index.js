@@ -49,6 +49,7 @@ app.use(bodyParser.json());
 
 const waiterAvail = Waiters(pool);
 let name = '';
+let weeks = [];
 
 // let weekday = [];
 app.get('/', (req, res) => {
@@ -65,21 +66,29 @@ app.post('/', async (req, res) => {
 });
 
 // eslint-disable-next-line comma-spacing
-app.get('/:name', (req,res) => {
+app.get('/:name', async (req,res) => {
   req.params.name = name;
-  res.render('days', { name });
+  weeks = await waiterAvail.checkedDays(name);
+
+  res.render('days', { name, weeks });
 });
 
 app.post('/:name', async (req, res) => {
-  req.params.name = name;
-  await waiterAvail.setNameID();
-  await waiterAvail.selectShift(req.body.days);
-  res.redirect(`/${name}`);
+  // req.params.name = name;
+  name = req.params.name;
+  const weekdays = req.body.days;
+  console.log(name);
+  console.log(weekdays);
+  await waiterAvail.setName(name);
+  await waiterAvail.selectShift(weekdays, name);
+  // weeks = await waiterAvail.checkedDays(name);
+
+  res.redirect(name);
 });
 
 app.get('/waiters/admin', async (req, res) => {
   const waitering = await waiterAvail.getWaiters();
-  // week = await waitersService.daysColor();
+  weeks = await waiterAvail.dayColour();
 
   const Monday = [];
   const Tuesday = [];
@@ -92,11 +101,12 @@ app.get('/waiters/admin', async (req, res) => {
   // eslint-disable-next-line max-len
   // const myClass = [{ Class: 'Sun' }, { Class: 'Mon' }, { Class: 'Tue' }, { Class: 'Wed' }, { Class: 'Thu' }, { Class: 'Fri' }, { Class: 'Sat' }];
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const x of waitering) {
     if (x.daysweek === 'Monday') {
       Monday.push(x.names);
     }
-    if (x.daysweek === 'Tuesdays') {
+    if (x.daysweek === 'Tuesday') {
       Tuesday.push(x.names);
     }
     if (x.daysweek === 'Wednesday') {
@@ -124,6 +134,7 @@ app.get('/waiters/admin', async (req, res) => {
     Friday,
     Saturday,
     Sunday,
+    weeks,
 
   });
 });

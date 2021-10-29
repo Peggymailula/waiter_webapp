@@ -8,17 +8,27 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Monday</th>
+      {{!-- <th scope="col">Monday</th>
       <th scope="col">Tuesday</th>
       <th scope="col">Wednesday</th>
       <th scope="col">Thursday</th>
        <th scope="col">Friday</th>
         <th scope="col">Saturday</th>
          <th scope="col">Sunday</th>
-    </tr>
+    </tr> --}}
+     <tr>
+            {{#each weeks}}
+            <th value="{{id}}" class="{{color}}">{{daysweek}}</th>
+            {{/each}}
+        </tr>
   </thead>
   
   <tbody>
+     <tr>
+            {{#each week}}
+            <th value="{{id}}" class="{{color}}">{{day}}</th>
+            {{/each}}
+        </tr>
     <tr>       
             <td>
                 {{#each Monday}}
