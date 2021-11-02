@@ -1,81 +1,65 @@
+<div class="container-fluid" id="intro">
+  <br>
 
-   <div class="container-fluid"  id="intro">
-<br>
+  <div class="container-fluid" style="border: 5px solid #654321;padding: 10px;background-color:rgb(250, 243, 243);">
+    <h1 class="display-1">Penny's Coffee</h1><br>
 
-<div class="container-sm" style="border: 5px solid #654321;padding: 10px;background-color:rgb(250, 243, 243);">
-<h1 class="display-1">Penny's Coffee</h1><br>
+    <table class="table">
 
-<table class="table">
-  <thead>
-    <tr>
-      {{!-- <th scope="col">Monday</th>
-      <th scope="col">Tuesday</th>
-      <th scope="col">Wednesday</th>
-      <th scope="col">Thursday</th>
-       <th scope="col">Friday</th>
-        <th scope="col">Saturday</th>
-         <th scope="col">Sunday</th>
-    </tr> --}}
-     <tr>
-            {{#each weeks}}
-            <th value="{{id}}" class="{{color}}">{{daysweek}}</th>
-            {{/each}}
-        </tr>
-  </thead>
-  
-  <tbody>
-     <tr>
-            {{#each week}}
-            <th value="{{id}}" class="{{color}}">{{day}}</th>
-            {{/each}}
-        </tr>
-    <tr>       
-            <td>
-                {{#each Monday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-            <td>
-                {{#each Tuesday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-            <td>
-                {{#each Wednesday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-            <td>
-                {{#each Thursday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-            <td>
-                {{#each Friday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-            <td>
-                {{#each Saturday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-            <td>
-                {{#each Sunday}}
-                {{this}} <br> 
-                {{/each}}
-            </td>
-  </tbody>
-   
-</table>
- <h3>{{messages.reset}}</h3>
-<br>
-<form  action="/waiters/admin" method="POST">
-<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-  <div class="btn-group mr-2" role="group" aria-label="First group" style="margin-left: 40%;">
-  
-    <button type="submit" class="btn  btn-lg" id="update" style="background-color: #e0964d;">Reset</button>
+
+      <tr>
+        {{#each weeks}}
+        <th value="{{id}}" class="{{color}}" >{{daysweek}}</th>
+        {{/each}}
+      </tr>
+
+      <tr>
+        <td>
+          {{#each Monday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+        <td>
+          {{#each Tuesday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+        <td>
+          {{#each Wednesday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+        <td>
+          {{#each Thursday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+        <td>
+          {{#each Friday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+        <td>
+          {{#each Saturday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+        <td>
+          {{#each Sunday}}
+          {{this}} <br>
+          {{/each}}
+        </td>
+      </tr>
+
+    </table>
+    <h3>{{messages.reset}}</h3>
+    <br>
+    <form action="/waiters/admin" method="POST">
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group" style="margin-left: 40%;">
+
+          <button type="submit" class="btn  btn-lg" id="update" style="background-color: #e0964d;">Reset</button>
     </form>
   </div>
-</div> 
+</div>
 </div>

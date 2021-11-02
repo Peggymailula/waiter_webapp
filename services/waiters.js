@@ -4,6 +4,8 @@ module.exports = function waiterAvailability(pool) {
   let waiter;
 
   async function getNameID(name) {
+    // eslint-disable-next-line no-param-reassign
+    name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
     let id = await pool.query('SELECT id FROM waiterNames WHERE names = $1', [name]);
     id = id.rows[0].id;
     return id;
@@ -55,12 +57,10 @@ INNER JOIN daysOfWeek
       // eslint-disable-next-line no-await-in-loop
       const result = await pool.query('SELECT COUNT(*) AS counter FROM waiterDays WHERE waiter_id = $1 and days_id = $2', [waiterID, i.id]);
       const counting = result.rows[0].counter;
-      console.log(counting);
-
       if (counting > 0) {
-        i.selected = true;
+        i.check = true;
       } else {
-        i.selected = false;
+        i.check = false;
       }
     }
 
@@ -69,18 +69,17 @@ INNER JOIN daysOfWeek
 
   async function dayColour() {
     const theDay = await getDays();
-    const shift = 'SELECT COUNT(*) AS counter FROM waiterDays WHERE days_id = $1';
-
     for (const y of theDay) {
-      const result = await pool.query(shift, [y.id]);
-      const dayCount = result.rows[0].counter;
+      // eslint-disable-next-line no-await-in-loop
+      const result = await pool.query('SELECT COUNT(*) AS counters FROM waiterDays WHERE days_id = $1', [y.id]);
+      const dayCount = result.rows[0].counters;
 
       if (dayCount < 3) {
-        theDay.color = 'bg-warning';
+        y.color = 'bg-warning';
       } else if (dayCount > 3) {
-        theDay.color = 'bg-danger';
+        y.color = 'bg-danger';
       } else {
-        theDay.color = 'bg-success';
+        y.color = 'bg-success';
       }
     }
 

@@ -2,7 +2,7 @@
    <div class="container-fluid"  id="intro">
 <br>
 
-<div class="container-sm" style="border: 5px solid #654321;padding: 10px;background-color:rgb(250, 243, 243);">
+<div class="container-fluid" style="border: 5px solid #654321;padding: 10px;background-color:rgb(250, 243, 243);">
 <h1 class="display-1">Penny's Coffee</h1><br>
      
  <h4>Waiter: {{name}} </h4>
@@ -11,7 +11,9 @@
 
      <h3>Days Available</h3><br>
  <form action="/{{name}}" method="POST">
-
+ 
+<h5 class="success">{{messages.success}} </h5>
+<h5 class="errors">{{messages.errors}} </h5>
  <div class="row" id="checkRow">
 
 
@@ -19,22 +21,26 @@
   <ul>
                 {{#each weeks}}
                 <li class="btn bg-light m-2" value="{{daysWeek}}" name="{{daysWeek}}">
-                    <input type="checkbox" name="days" value="{{id}}" {{#if selected}}checked{{/if}} > {{daysweek}} 
+                    <input type="checkbox" name="days" value="{{id}}" {{#if check}}checked{{/if}} > {{daysweek}} 
                 </li>
                 {{/each}}
             </ul>
 </div>
 
 </div>
-<br><br>
 
 
-<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-  <div class="btn-group mr-2" role="group" aria-label="First group" style="margin-left: 30%;">
+<div class="btn-toolbar btn-group" role="toolbar" aria-label="Toolbar with button groups" style="margin-left:15%;">
+  <div class="btn-group mr-2" role="group" aria-label="First group" style="margin-left:30%;">
   
-    <button type="submit" class="btn  btn-lg" id="update" style="background-color: #e0964d;">Update</button>
+    <button type="submit" class="btn  btn-lg  btn-secondary" id="update" style="background-color: #e0964d;">Update</button>
     </form>
+  </div>
+<form action="/waiters/logout" method="POST">
+  <div class="btn-group mr-2" role="group" aria-label="First group" >
+  
+    <button type="submit" class="btn  btn-lg btn-secondary" id="update" style="background-color: #e0964d;">Log out</button>
+    </form>
+  </div></div>
   </div> 
   </div>
-</div> 
-</div>

@@ -28,6 +28,11 @@
    text-align: center;
   color: #654321;
  }
+ h5{
+  text-align: center;
+  color:green;
+ 
+}
 
  #checkRow{
    margin-left: 25%;
@@ -54,6 +59,16 @@
 #inlineCheckbox3 label{
   margin-left: 100%;
 }
+
+.warning{
+  color: orange;
+}
+
+.errors{
+  color: red;
+}
+
+
 
   /* @media (min-width: 992px) {
     #intro {
