@@ -26,12 +26,19 @@ module.exports = function waiterAvailability(pool) {
     day = string;
     // let strId;
     const nameID = await getNameID(name);
+    const duplicate = await pool.query('SELECT names from waiterNames WHERE names = $1', [name]);
+    // const noDuplicate = await pool.query('SELECT id from  waiterDays WHERE id = $1', [nameID]);
 
     for (const i of day) {
-      // eslint-disable-next-line no-await-in-loop
-      // const dayIdentify = await pool.query('SELECT id FROM daysOfWeek WHERE daysWeek = $1', [i]);
-      // eslint-disable-next-line no-await-in-loop
-      await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [i, nameID]);
+      if (duplicate.rowCount === 0) {
+        await pool.query('INSERT INTO waiterDays (days_id, waiter_id) VALUES ($1,$2)', [i, nameID]);
+      } else {
+        const usedDays = await pool.query('SELECT * FROM waiterDays WHERE waiter_id = $1 AND days_id = $2', [nameID, i]);
+
+        if (usedDays.rowCount === 0) {
+          await pool.query('INSERT INTO waiterDays(waiter_id, days_id) values ($1,$2)', [nameID, i]);
+        }
+      }
     }
   }
 
