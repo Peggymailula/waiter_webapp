@@ -33,7 +33,8 @@ describe('Should return the waiter\'s names and days selected for the shifts ava
   });
   it('Should return the name Lusanda and days selected for the shifts available', async () => {
     const waiter1 = waiter(pool);
-    await waiter1.setName('Peggy');
+    await waiter1.setName('Lusanda');
+    await waiter1.getNameID('Lusanda');
     await waiter1.selectShift([3, 5, 7], 'Lusanda');
 
     assert.deepEqual([{
@@ -51,10 +52,20 @@ describe('Should return the waiter\'s names and days selected for the shifts ava
 
   it('Should return the names of Lusanda,Peggy,Ziyanda & Bella and days selected for the shifts available', async () => {
     const waiter1 = waiter(pool);
-
+    await waiter1.setName('Lusanda');
+    await waiter1.getNameID('Lusanda');
     await waiter1.selectShift([1, 2, 3], 'Lusanda');
+
+    await waiter1.setName('Peggy');
+    await waiter1.getNameID('Peggy');
     await waiter1.selectShift([4, 5, 6], 'Peggy');
+
+    await waiter1.setName('Ziyanda');
+    await waiter1.getNameID('Ziyanda');
     await waiter1.selectShift([3, 5, 7], 'Ziyanda');
+
+    await waiter1.setName('Bella');
+    await waiter1.getNameID('Bella');
     await waiter1.selectShift([1, 5], 'Bella');
 
     assert.deepEqual([{
@@ -100,7 +111,12 @@ describe('Should return the correct colour (orange/red/green) to verify status o
     const waiter1 = waiter(pool);
 
     await waiter1.resetData();
+    await waiter1.setName('Peggy');
+    await waiter1.getNameID('Peggy');
     await waiter1.selectShift([1, 2], 'Peggy');
+
+    await waiter1.setName('Bella');
+    await waiter1.getNameID('Bella');
     await waiter1.selectShift([2, 3], 'Bella');
     await waiter1.getWaiters();
 
@@ -147,9 +163,20 @@ describe('Should return the correct colour (orange/red/green) to verify status o
     const waiter1 = waiter(pool);
 
     await waiter1.resetData();
+    await waiter1.setName('Lusanda');
+    await waiter1.getNameID('Lusanda');
     await waiter1.selectShift([1, 2, 3], 'Lusanda');
+
+    await waiter1.setName('Peggy');
+    await waiter1.getNameID('Peggy');
     await waiter1.selectShift([1, 5, 6], 'Peggy');
+
+    await waiter1.setName('Ziyanda');
+    await waiter1.getNameID('Ziyanda');
     await waiter1.selectShift([3, 1, 7], 'Ziyanda');
+
+    await waiter1.setName('Bella');
+    await waiter1.getNameID('Bella');
     await waiter1.selectShift([1, 5, 3], 'Bella');
 
     await waiter1.getWaiters();
@@ -197,9 +224,20 @@ describe('Should return the correct colour (orange/red/green) to verify status o
   it('Should return all the days to the default orange colour after reseting', async () => {
     const waiter1 = waiter(pool);
 
+    await waiter1.setName('Lusanda');
+    await waiter1.getNameID('Lusanda');
     await waiter1.selectShift([1, 2, 3], 'Lusanda');
+
+    await waiter1.setName('Peggy');
+    await waiter1.getNameID('Peggy');
     await waiter1.selectShift([1, 5, 6], 'Peggy');
+
+    await waiter1.setName('Ziyanda');
+    await waiter1.getNameID('Ziyanda');
     await waiter1.selectShift([3, 1, 7], 'Ziyanda');
+
+    await waiter1.setName('Bella');
+    await waiter1.getNameID('Bella');
     await waiter1.selectShift([1, 5, 3], 'Bella');
     await waiter1.getWaiters();
     await waiter1.resetData();
