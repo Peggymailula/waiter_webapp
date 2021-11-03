@@ -57,15 +57,15 @@ app.get('/', availabilityRoutes.home);
 app.post('/', availabilityRoutes.getNames);
 
 // eslint-disable-next-line comma-spacing
-app.get('/:name',availabilityRoutes.setDays);
+app.get('/waiters/:name',availabilityRoutes.setDays);
 
-app.post('/:name', availabilityRoutes.getDays);
+app.post('/waiters/:name', availabilityRoutes.getDays);
 
 app.post('/waiters/logout', availabilityRoutes.logout);
 
-app.get('/waiters/admin', availabilityRoutes.waitersAvailable);
+app.get('/admin', availabilityRoutes.waitersAvailable);
 
-app.post('/waiters/admin', availabilityRoutes.schedule);
+app.post('/admin', availabilityRoutes.schedule);
 
 const PORT = process.env.PORT || 3005;
 

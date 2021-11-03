@@ -11,7 +11,7 @@ module.exports = function waiterAvailed(waiterAvail) {
     name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
     await waiterAvail.setName(name);
     // eslint-disable-next-line no-console
-    res.redirect(`/${name}`);
+    res.redirect(`/waiters/${name}`);
   }
   async function setDays(req, res) {
     req.params.name = name;
@@ -30,7 +30,7 @@ module.exports = function waiterAvailed(waiterAvail) {
       await waiterAvail.selectShift(weekdays, name);
     }
 
-    res.redirect(name);
+    res.redirect(`/waiters/${name}`);
   }
 
   async function logout(req, res) {
@@ -88,7 +88,7 @@ module.exports = function waiterAvailed(waiterAvail) {
   async function schedule(req, res) {
     waiterAvail.resetData();
     req.flash('reset', 'There are currently no waiters available to work for the week.');
-    res.redirect('/waiters/admin');
+    res.redirect('/admin');
   }
 
   return {
